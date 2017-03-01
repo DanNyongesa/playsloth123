@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, jsonify, request, send_from_directory, current_app
+from flask import render_template, flash, redirect, url_for, jsonify, request, send_from_directory, current_app, abort
 from . import main
 from .. import db, photos, audio
 from .forms import AlbumForm, SongForm
@@ -36,7 +36,7 @@ def add_album():
         album = Album(artist=artist, album_title=album_title, genre=genre,album_logo=filename,logo_url=url)
         db.session.add(album)
         db.session.commit()
-        flash("Album added at {}".format(filename))
+        flash("Album {} added".format(album_title))
         return redirect(url_for('main.index'))
     else:
         flash_errors(form)
@@ -51,13 +51,6 @@ def delete_album(album_id):
     return redirect(url_for('main.index'))
 
 
-@main.route("/albums/<int:album_id>")
-def get_album(album_id):
-    album = Album.query.filter_by(id=album_id).first_or_404()
-    songs = Song.query.filter_by(album_id=album.id).all()
-    return render_template('detail.html', album=album, songs=songs)
-
-
 @main.route("/songs/create/<int:album_id>", methods=['POST', 'GET'])
 def add_song(album_id):
     form = SongForm()
@@ -70,8 +63,8 @@ def add_song(album_id):
         song = Song(song_title=song_title,audio_url=song_url, audio_file=song_filename,album_id=album.id)
         db.session.add(song)
         db.session.commit()
-        flash("Song added at {}".format(song_filename))
-        return render_template('details.html', album=album, songs=songs)
+        flash("[song] {} added".format(song_title))
+        return redirect(url_for('main.detail',album_id=album.id))
     else:
         flash_errors(form)
     return render_template('add_song.html', form=form, album=album)
@@ -98,7 +91,7 @@ def favourite_album():
     resp.status_code = 200
     return resp
 
-@main.route('/uploads/<filename>')
+@main.route('/photos/<filename>')
 def uploaded_image(filename):
     return send_from_directory(os.path.join(current_app.config['UPLOADS_DEFAULT_DEST'], 'photos'), filename)
 
@@ -108,22 +101,33 @@ def uploaded_song(filename):
     return send_from_directory(os.path.join(current_app.config['UPLOADS_DEFAULT_DEST'], 'audio'), filename)
 
 
-# TODO
-@main.route("/songs/delete/<int:album_id>/<int:song_id>")
+
+@main.route("/songs/delete/<int:album_id>/<int:song_id>", methods=['POST', 'GET'])
 def delete_song(album_id, song_id):
-    album = Album.query.filter_by(album_id=album_id).first_or_404()
-    # song = Song.query.filter_by(album_id=)
-
-
-@main.route("/songs/<int:song_id>")
-def get_song(song_id):
-    pass
+    album = Album.query.filter_by(id=album_id).first_or_404()
+    songs = Song.query.filter_by(album_id=album.id).all()
+    song = filter(lambda song: song.id==song_id, songs)
+    if len(song)>0:
+        db.session.delete(song[0])
+        db.session.commit()
+        flash("Deleted ".format(song[0].song_title))
+        return redirect(url_for('main.detail', album_id=album.id))
+    abort(404)
 
 
 @main.route("/songs/favourite/<int:song_id>")
 def favourite_song(song_id):
     song = Song.query.filter_by(id=song_id).first_or_404()
-    song.is_favorite = True
+    if song.is_favorite:
+        song.is_favorite = False
+    else:
+        song.is_favorite = True
     db.session.add(song)
     db.session.commit()
+    return redirect(url_for('main.detail', album_id=song.album_id))
+
+# TODO
+@main.route("/songs/<int:song_id>")
+def get_song(song_id):
     pass
+

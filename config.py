@@ -25,7 +25,7 @@ class DevelopmentConfig(Config):
     MAIL_PASSWORD= os.environ.get('MAIL_PASSWORD')  or "password"
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URI') or 'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
     UPLOADS_DEFAULT_DEST = os.environ.get('UPLOADED_IMAGES_DEST') or os.path.join(basedir, 'app/media')
-    UPLOADS_DEFAULT_URL = os.environ.get('UPLOADED_IMAGES_URL') or 'http://localhost:5000/app/media/'
+    UPLOADS_DEFAULT_URL = os.environ.get('UPLOADED_IMAGES_URL') or 'http://localhost:5000/'
     # UPLOADED_MEDIA_DEST = os.environ.get('UPLOADED_MEDIA_DEST') or basedir
     # UPLOADED_MEDIA_URL = os.environ.get('UPLOADED_MEDIA_URL') or 'http://localhost:5000/'
 
