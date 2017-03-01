@@ -126,8 +126,3 @@ def favourite_song(song_id):
     db.session.commit()
     return redirect(url_for('main.detail', album_id=song.album_id))
 
-# TODO
-@main.route("/songs/<int:song_id>")
-def get_song(song_id):
-    pass
-
