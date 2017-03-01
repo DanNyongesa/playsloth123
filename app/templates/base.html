@@ -1,0 +1,92 @@
+{% extends "bootstrap/base.html" %}
+{% block head %}
+{{ super() }}
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.ico') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script>
+    function callback(data, con){
+        if(data.value == 'true'){
+            $(con).addClass('active');
+        }
+        else{
+            $(con).removeClass('active');
+        }
+        // window.location.reload();
+    }
+    function favourite(album_id, favid){
+        var b = $(favid);
+        var data = {'id': album_id};
+        $.ajax({
+            type: "POST",
+            cache: false,
+            contentType: "application/json",
+            url: '/albums/favourite',
+            data: JSON.stringify(data),
+            success: function(resp){
+                callback(resp.value, b);
+             }
+        });
+        }
+</script>
+{%  endblock %}
+{% block title %}playsloth{% endblock %}
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">playsloth</a>
+        </div>
+        <!-- Items -->
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+                <li class="{% block albums_active %}{% endblock %}"><a href=""><span class="glyphicon glyphicon-cd" aria-hidden="true"></span>&nbsp; Albums</a></li>
+                <li class="{% block songs_active %}{% endblock %}"><a href=""><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp; Songs</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search" method="get" action="">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="q" value="">
+                </div>
+                <button type="submit" class="btn btn-default">Search</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="{{ url_for('main.add_album') }}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Album
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    {% for messages in get_flashed_messages() %}
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Warning! </strong>{{ messages }}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+{% block flash %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Hello, world </h1>
+    </div>
+</div>
+{% endblock %}

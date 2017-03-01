@@ -1,0 +1,6 @@
+# compiled python
+**.pyc
+# db files
+**.sqlite
+.idea/
+
