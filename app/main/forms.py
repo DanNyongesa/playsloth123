@@ -1,7 +1,7 @@
 from flask_wtf import Form
 from wtforms import StringField, SubmitField, validators
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from .. import photos
+from .. import photos, audio
 
 class AlbumForm(Form):
     title = StringField("Album title")
@@ -13,6 +13,6 @@ class AlbumForm(Form):
 
 class SongForm(Form):
     title = StringField("Enter song title")
-    song = StringField("upload song")
+    audio = FileField("Upload song", validators=[FileRequired(), FileAllowed(audio, 'Can only upload photos!')])
     submit = SubmitField('Submit')
 

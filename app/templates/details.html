@@ -29,7 +29,7 @@
 
             <ul class="nav nav-pills" style="margin-bottom: 10px;">
                 <li role="presentation" class="active"><a href="{{ url_for('main.detail', album_id=album.id) }}">View All</a></li>
-                <li role="presentation"><a href="{url_for('main.add_song'}}">Add New Song</a></li>
+                <li role="presentation"><a href="{{ url_for('main.add_song', album_id=album.id) }}">Add New Song</a></li>
             </ul>
 
             <div class="panel panel-default">
@@ -55,14 +55,14 @@
                             <tr>
                                 <td>{{ song.song_title }}</td>
                                 <td>
-                                    <a target="_blank" href="{{ song.audio_file.url }}">
+                                    <a target="_blank" href="{{ url_for('main.uploaded_song', filename=song.audio_file) }}">
                                         <button type="button" class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-play"></span>&nbsp; Play
                                         </button>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{ url_for('main.favorite_song', song_id=song.id) }}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                    <a href="{{ url_for('main.favourite_song', song_id=song.id) }}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
                                 </td>
                                 <td>
                                     <!--#TODO change this form-->
