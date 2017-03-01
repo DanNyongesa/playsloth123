@@ -3,4 +3,7 @@
 # db files
 **.sqlite
 .idea/
-
+**.mp3
+**.mp4
+**.wav
+app/media/
