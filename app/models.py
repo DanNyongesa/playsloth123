@@ -17,22 +17,24 @@ class Album(db.Model):
     artist = db.Column(db.String(250))
     album_title = db.Column(db.String(250))
     genre = db.Column(db.String(100))
-    album_logo = db.Column(db.LargeBinary, default='')
+    album_logo = db.Column(db.String(250), default='')
+    logo_url = db.Column(db.String, default=None)
     is_favorite = db.Column(db.Boolean, default=False)
-    song = db.relationship('Song', backref='album', lazy='dynamic')
+    # song = db.relationship('Song', backref='album', lazy='dynamic')
     # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __repr__(self):
-         return "<%r - %r>" % (self.album_title, self.artist)
+    def __str__(self):
+         return self.album_title + ' -' + self.artist
 
 
 class Song(db.Model):
     __tablename__ = 'songs'
     id = db.Column(db.Integer, primary_key=True)
     song_title = db.Column(db.String(250))
-    audio_file = db.Column(db.LargeBinary, default='')
+    audio_file = db.Column(db.String(250), default='')
+    audio_url = db.Column(db.String, default=None)
     is_favorite = db.Column(db.Boolean, default=False)
-    album_id = db.Column(db.Integer, db.ForeignKey('albums.id'))
+    # album_id = db.Column(db.Integer, db.ForeignKey('albums.id'))
 
-    def __repr__(self):
-         return "<Song: %r>" % self.song_title
+    def __str__(self):
+         return str(self.song_title)

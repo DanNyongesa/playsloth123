@@ -8,6 +8,7 @@
 {{ super() }}
 <script>
     function callback(data, con){
+
         if(data.value == 'true'){
             $(con).addClass('active');
         }
@@ -17,6 +18,13 @@
         // window.location.reload();
     }
     function favourite(album_id, favid){
+         var csrf_token = "{{ csrf_token() }}";
+         $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrf_token);
+                }
+            }
         var b = $(favid);
         var data = {'id': album_id};
         $.ajax({
@@ -76,7 +84,7 @@
     {% for messages in get_flashed_messages() %}
     <div class="alert alert-warning alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Warning! </strong>{{ messages }}
+        {{ messages }}
     </div>
     {% endfor %}
 </div>
