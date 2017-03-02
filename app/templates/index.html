@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block albums_active %}active{% endblock %}
+{% block title %}playsloth - Home{% endblock %}
 {% block content %}
 <div class="albums-container container-fluid">
     <!-- Albums -->
@@ -30,7 +31,7 @@
                             </form>
 
                             <!-- Favorite Album -->
-                            <button  onclick="favourite('{{ album.id }}', '#favid')"class="btn btn-default btn-sm btn-favorite" role="button">
+                            <button  onclick="favorite('{{ album.id }}', '#favid')"class="btn btn-default btn-sm btn-favorite" role="button">
                                 <span id="favid" class="glyphicon glyphicon-star {% if album.is_favorite %}active{% endif %}"></span>
                             </button>
 

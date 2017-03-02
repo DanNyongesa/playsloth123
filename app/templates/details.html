@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{ album }}{% endblock %}
+{% block title %}playsloth - {{ album }}{% endblock %}
 {% block albums_active %}active{% endblock %}
 
 {% block content %}
@@ -62,7 +62,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{ url_for('main.favourite_song', song_id=song.id) }}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                    <a href="{{ url_for('main.favorite_song', song_id=song.id) }}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
                                 </td>
                                 <td>
                                     <!--#TODO change this form-->
