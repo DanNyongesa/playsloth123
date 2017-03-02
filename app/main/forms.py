@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm as Form
 from wtforms import StringField, SubmitField, validators
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from .. import photos, audio

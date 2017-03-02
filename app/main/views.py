@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, jsonify, request, s
 from . import main
 from .. import db, photos, audio
 from .forms import AlbumForm, SongForm
-from ..models import Album, Song
+from ..models import Album, Song, User
 from .. import db
 from werkzeug.utils import secure_filename
 import os
@@ -125,4 +125,10 @@ def favourite_song(song_id):
     db.session.add(song)
     db.session.commit()
     return redirect(url_for('main.detail', album_id=song.album_id))
+
+# user profile
+@main.route('/user/<username>')
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('user.html', user=user)
 
