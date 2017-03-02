@@ -133,7 +133,7 @@ def delete_song(album_id, song_id):
     abort(404)
 
 
-@main.route("/songs/favourite/<int:song_id>")
+@main.route("/songs/favorite/<int:song_id>")
 @login_required
 def favorite_song(song_id):
     song = Song.query.filter_by(id=song_id).first()
@@ -143,7 +143,9 @@ def favorite_song(song_id):
         song.is_favorite = True
     db.session.add(song)
     db.session.commit()
-    return redirect(url_for('main.detail', album_id=song.album_id))
+    resp = jsonify({'message': "Success", "value": song.is_favorite})
+    resp.status_code = 200
+    return resp
 
 @main.route("/songs/<song_filter>", methods=['GET', 'POST'])
 @login_required

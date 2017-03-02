@@ -62,7 +62,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{ url_for('main.favorite_song', song_id=song.id) }}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                    <a onclick="favorite('{{ song.id }}', '#favid')" class="btn-favorite"><span id="favid" class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
                                 </td>
                                 <td>
                                     <!--#TODO change this form-->

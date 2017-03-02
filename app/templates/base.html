@@ -15,9 +15,27 @@
         else{
             $(con).removeClass('active');
         }
-        // window.location.reload();
+        //window.location.reload();
     }
-    function favorite(album_id, favid){
+    function favorite(song_id, favid){
+        var csrf_token = "{{ csrf_token() }}";
+        var b = $(favid);
+        var data = {'id': song_id};
+        $.ajax({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrf_token); }},
+            type: "POST",
+            cache: false,
+            contentType: "application/json",
+            url: '/songs/favorite',
+            data: JSON.stringify(data),
+            success: function(resp){
+                callback(resp.value, b);
+             }
+        });
+        }
+            function favorite(album_id, favid){
         var csrf_token = "{{ csrf_token() }}";
         var b = $(favid);
         var data = {'id': album_id};
