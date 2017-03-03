@@ -32,7 +32,7 @@ def load_user(user_id):
 
 class Album(db.Model):
     __tablename__= 'albums'
-    __searchable__ = ['artist', 'album_title', 'genre']
+    __searchable__ = ['artist', 'album_title']
     id = db.Column(db.Integer, primary_key=True)
     artist = db.Column(db.String(250))
     album_title = db.Column(db.String(250))
