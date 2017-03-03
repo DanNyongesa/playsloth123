@@ -1,8 +1,7 @@
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
-from flask import current_app
-from datetime import datetime
+
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -33,6 +32,7 @@ def load_user(user_id):
 
 class Album(db.Model):
     __tablename__= 'albums'
+    __searchable__ = ['artist', 'album_title', 'genre']
     id = db.Column(db.Integer, primary_key=True)
     artist = db.Column(db.String(250))
     album_title = db.Column(db.String(250))
@@ -49,6 +49,7 @@ class Album(db.Model):
 
 class Song(db.Model):
     __tablename__ = 'songs'
+    __searchable__ = ['song_title']
     id = db.Column(db.Integer, primary_key=True)
     song_title = db.Column(db.String)
     audio_file = db.Column(db.String, default='')
@@ -58,3 +59,5 @@ class Song(db.Model):
 
     def __str__(self):
          return str(self.song_title)
+
+

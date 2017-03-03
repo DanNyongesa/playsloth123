@@ -94,7 +94,7 @@
                                         </td>
                                         <td>
                                             <!--#TODO look up at this functionality-->
-                                            <a href="{{ url_for('main.favourite_song', song_id=song.album.id) }}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                            <a href="{{ url_for('main.favorite_song', song_id=song.album.id) }}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
                                         </td>
                                     </tr>
                                 {% endfor %}

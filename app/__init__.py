@@ -5,7 +5,13 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import CSRFProtect
 from flask_uploads import configure_uploads, UploadSet, IMAGES, AUDIO
 from flask_login import LoginManager
+import sys
 
+if sys.version_info >= (3,0):
+    enable_search = False
+else:
+    enable_search = True
+    import flask_whooshalchemy
 
 csrf = CSRFProtect()
 db = SQLAlchemy()
@@ -32,5 +38,11 @@ def create_app(configname):
     # auth blueprint
     from auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
+
+    #index searches
+    from .models import Song, Album
+    if enable_search:
+        flask_whooshalchemy.whoosh_index(app, Song)
+        flask_whooshalchemy.whoosh_index(app, Album)
 
     return app

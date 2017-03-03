@@ -15,6 +15,17 @@ def index():
     albums = Album.query.filter_by(user=current_user).all()
     return render_template("index.html", albums=albums)
 
+@main.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+    query = request.form.get('q')
+    if query:
+        albums = Album.query.whoosh_search(query).all()
+        songs = Song.query.whoosh_search(query).all()
+        return render_template('index.html', albums=albums, songs=songs)
+    return redirect(url_for('main.index'))
+
+
 def flash_errors(form):
     for field, errors in form.errors.items():
         for error in errors:
