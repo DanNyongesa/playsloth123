@@ -2,7 +2,7 @@
 {% block title %}playsloth - {{ album }}{% endblock %}
 {% block albums_active %}active{% endblock %}
 
-{% block content %}
+{% block page_content %}
 <div class="container-fluid songs-container">
 
     <div class="row">
@@ -62,7 +62,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a onclick="favorite('{{ song.id }}', '#favid')" class="btn-favorite"><span id="favid" class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                    <a class="btn-favorite"><spanclass="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
                                 </td>
                                 <td>
                                     <!--#TODO change this form-->

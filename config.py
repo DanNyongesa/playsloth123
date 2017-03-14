@@ -11,6 +11,8 @@ class Config:
     MAIL_SUBJECT_PREFIX = '[254plays]'
     ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'wav', 'mp3', 'mp4'])
     UPLOADS_DEFAULT_DEST = os.environ.get('UPLOADED_IMAGES_DEST') or os.path.join(basedir, 'app/media')
+    ALBUMS_PER_PAGE = 12
+    SONGS_PER_PAGE = 2
 
     @staticmethod
     def init_app(app):

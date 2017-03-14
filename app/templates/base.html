@@ -6,54 +6,7 @@
 {% endblock %}
 {% block scripts %}
 {{ super() }}
-<script>
-    function callback(data, con){
-
-        if(data.value == 'true'){
-            $(con).addClass('active');
-        }
-        else{
-            $(con).removeClass('active');
-        }
-        //window.location.reload();
-    }
-    function favorite(song_id, favid){
-        var csrf_token = "{{ csrf_token() }}";
-        var b = $(favid);
-        var data = {'id': song_id};
-        $.ajax({
-            beforeSend: function(xhr, settings) {
-                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrf_token); }},
-            type: "POST",
-            cache: false,
-            contentType: "application/json",
-            url: '/songs/favorite',
-            data: JSON.stringify(data),
-            success: function(resp){
-                callback(resp.value, b);
-             }
-        });
-        }
-            function favorite(album_id, favid){
-        var csrf_token = "{{ csrf_token() }}";
-        var b = $(favid);
-        var data = {'id': album_id};
-        $.ajax({
-            beforeSend: function(xhr, settings) {
-                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrf_token); }},
-            type: "POST",
-            cache: false,
-            contentType: "application/json",
-            url: '/albums/favorite',
-            data: JSON.stringify(data),
-            success: function(resp){
-                callback(resp.value, b);
-             }
-        });
-        }
-</script>
+<script src="{{ url_for('static', filename='js/main.js')}}"></script>
 {%  endblock %}
 {% block title %}playsloth{% endblock %}
 {% block navbar %}
@@ -105,12 +58,16 @@
     {% endfor %}
 </div>
 {% endblock %}
-{% block flash %}
-{% endblock %}
 {% block content %}
-<div class="container">
-    <div class="page-header">
-        <h1>Hello, world </h1>
-    </div>
-</div>
+{% block page_content %}
+{% endblock %}
+{% block footer %}
+ <footer class="footer text-center">
+      <div class="container" id="foot">
+          <p class="text-muted">&copy; 2017 playsloth, inc. All rights reserved </p>
+      </div>
+ </footer>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+{% endblock %}
 {% endblock %}

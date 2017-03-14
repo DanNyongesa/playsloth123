@@ -8,12 +8,13 @@ from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 import os
 
-@main.route("/")
-@main.route("/home")
+@main.route("/", methods=['GET', 'POST'])
+@main.route("/home",methods=['GET', 'POST'])
+@main.route("/index/<int:page>", methods=['GET', 'POST'])
 @login_required
-def index():
-    albums = Album.query.filter_by(user=current_user).all()
-    return render_template("index.html", albums=albums)
+def index(page=1):
+    albums = Album.query.filter_by(user=current_user).paginate(page, current_app.config['ALBUMS_PER_PAGE'], False)
+    return render_template("main/index.html", albums=albums)
 
 @main.route('/search', methods=['GET', 'POST'])
 @login_required
@@ -22,7 +23,7 @@ def search():
     if query:
         albums = Album.query.whoosh_search(query).all()
         songs = Song.query.whoosh_search(query).all()
-        return render_template('index.html', albums=albums, songs=songs)
+        return render_template('main/index.html', albums=albums, songs=songs)
     return redirect(url_for('main.index'))
 
 
@@ -54,7 +55,7 @@ def add_album():
         return redirect(url_for('main.index'))
     else:
         flash_errors(form)
-    return render_template('add_album.html', form=form)
+    return render_template('main/add_album.html', form=form)
 
 
 @main.route("/albums/delete/<int:album_id>", methods=['DELETE', 'POST'])
@@ -86,7 +87,7 @@ def add_song(album_id):
         return redirect(url_for('main.detail',album_id=album.id))
     else:
         flash_errors(form)
-    return render_template('add_song.html', form=form, album=album)
+    return render_template('main/add_song.html', form=form, album=album)
 
 
 @main.route("/albums/detail/<int:album_id>")
@@ -98,7 +99,7 @@ def detail(album_id):
     album = filter(lambda alb: alb.id==album_id, albums)
     album = album[0]
     songs = Song.query.filter_by(album_id=album.id).all()
-    return render_template('details.html', album=album, songs=songs)
+    return render_template('main/details.html', album=album, songs=songs)
 
 
 @main.route("/albums/favorite", methods=['POST', 'GET'])
@@ -169,7 +170,7 @@ def songs(song_filter):
     user_songs = [Song.query.filter_by(id=id).first() for id in song_ids]
     if song_filter== 'favorites':
         user_songs = filter(lambda song: song.is_favorite == True, user_songs)
-    return render_template('songs.html', song_list=user_songs,song_filter=song_filter)
+    return render_template('main/songs.html', song_list=user_songs,song_filter=song_filter)
 
 
 

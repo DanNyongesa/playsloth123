@@ -1,0 +1,25 @@
+ {% macro paginate(paginator, endpoint) %}
+        {# A generally pluggable pagination macro, just supply it with the pagination object #}
+        {# formatted for Bootstrap 3 #}
+    <nav aria-label="Page navigation" class="text-center">
+      <ul class="pagination">
+        <li {% if not paginator.has_prev %}class="disabled"{% endif %}>
+          <a href="{% if paginator.has_prev %}{{ url_for(endpoint, page=paginator.page - 1, **kwargs) }}{% else %}#{% endif %}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        {% for page in paginator.iter_pages() %}
+          {% if page %}
+            <li {% if page == paginator.page %} class="active"{% endif %}><a href="{{ url_for( endpoint, page=page, **kwargs) }}">{{ page }}</a></li>
+          {% else %}
+            <li class="disabled"><a href="#">&hellip;</a></li>
+          {% endif %}
+          {% endfor %}
+        <li {% if not paginator.has_next %}class="disabled"{% endif %}>
+          <a href="{% if paginator.has_next %}{{ url_for(endpoint, page=paginator.page + 1, **kwargs) }}{% else %}#{% endif %}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+ {% endmacro %}

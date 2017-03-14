@@ -7,7 +7,7 @@ from flask_uploads import configure_uploads, UploadSet, IMAGES, AUDIO
 from flask_login import LoginManager
 import sys
 
-if sys.version_info >= (3,0):
+if sys.version_info >= (3, 0):
     enable_search = False
 else:
     enable_search = True
