@@ -1,0 +1,28 @@
+{% extends 'auth/unauthorised_base.html' %}
+{% block title %}playsloth - Login{% endblock %}
+{% import "bootstrap/wtf.html" as wtf%}
+{% block login_active %}active{% endblock %}
+{% block content %}
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Log In</h3>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                   {{ wtf.quick_form(form) }}
+                     <br>
+                <div class="panel-footer">
+
+                    Don't have an account? <a href="{{ url_for('auth.register') }}">Click here</a> to register.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

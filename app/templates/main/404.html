@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}playsloth - 404{% endblock %}
+{% block page_content %}
+<div class="container">
+    <h3>Couldn't find what you are looking for!</h3>
+     <a href="{{ url_for('main.index') }}"><button type="button" class="btn btn-primary">Take me home!</button></a>
+</div>
+{% endblock %}

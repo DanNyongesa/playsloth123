@@ -1,57 +1,32 @@
 {% extends "base.html" %}
-{% block albums_active %}active{% endblock %}
-{% block content %}
-<div class="albums-container container-fluid">
 
+{% block albums_active %}active{% endblock %}
+{% block title %}playsloth - Home{% endblock %}
+{% block page_content %}
+<div class="albums-container container-fluid">
     <!-- Albums -->
     <div class="row">
         <div class="col-sm-12">
         {% if albums %}
-            {% for album in albums %}
-                <div class="col-sm-4 col-lg-2">
-                    <div class="thumbnail">
-                        <a href="{{ url_for('main.detail', album_id=album.id) }}">
-                            <img src="{{ album.album_logo.url }}" class="img-responsive">
-                        </a>
-                        <div class="caption">
-                            <h2>{{ album.album_title }}</h2>
-                            <h4>{{ album.artist }}</h4>
-
-                            <!-- View Details -->
-                            <a href="{{ url_for('main.detail', album_id=album.id) }}" class="btn btn-primary btn-sm" role="button">View Details</a>
-
-                            <!-- Delete Album -->
-                            <!--#TODO add quick form here-->
-                            <form action="{{ url_for('main.delete_album', album_id=album.id) }}" method="post" style="display: inline;">
-                                <input type="hidden" name="album_id" value="{{ album.id }}" />
-                                <button type="submit" class="btn btn-default btn-sm">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>
-                            </form>
-
-                            <!-- Favorite Album -->
-                            <button  onclick="favourite('{{ album.id }}', '#favid')"class="btn btn-default btn-sm btn-favorite" role="button">
-                                <span id="favid" class="glyphicon glyphicon-star {% if album.is_favorite %}active{% endif %}"></span>
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-            <!--#TODO work to do here-->
-                {#% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %#}
+            {% for album in albums.items %}
+                {% include 'main/albums.html' %}
+                <div class="{{ loop.cycle('', '', '', '', '', 'clearfix visible-lg') }}"></div>
             {% endfor %}
+
         {% else %}
-            <div class="col-sm-12">
-                <br>
-                <a href="{{ url_for('main.add_album') }}">
-                    <button type="button" class="btn btn-success">
-                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add an Album
-                    </button>
-                </a>
-            </div>
+            {% if current_user.is_authenticated %}
+                <div class="col-sm-12">
+                    <br>
+                    <a href="{{ url_for('main.add_album') }}">
+                        <button type="button" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus"></span>&nbsp; Add an Album
+                        </button>
+                    </a>
+                </div>
+            {% endif %}
         {% endif %}
     </div>
-
+</div>
     <!-- If user searches and there are songs -->
     {% if songs %}
         <div class="row">
@@ -91,7 +66,7 @@
                                         </td>
                                         <td>
                                             <!--#TODO look up at this functionality-->
-                                            <a href="{{ url_for('main.favourite_song', song_id=song.album.id) }}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                            <a href="{{ url_for('main.favorite_song', song_id=song.album.id) }}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -102,6 +77,7 @@
             </div>
         </div>
     {% endif %}
-
+    {% import 'main/_helpers.html' as helpers %}
+    {{ helpers.paginate(albums, 'main.index') }}
 </div>
 {% endblock %}

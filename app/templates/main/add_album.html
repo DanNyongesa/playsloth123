@@ -3,7 +3,7 @@
 {% block title %}Add a New Album{% endblock %}
 {% block albums_active %}active{% endblock %}
 
-{% block content %}
+{% block page_content %}
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12 col-md-7">
@@ -13,7 +13,9 @@
                     {% if error_message %}
                     <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
+
                     {{ wtf.quick_form(form) }}
+
                 </div>
             </div>
         </div>
