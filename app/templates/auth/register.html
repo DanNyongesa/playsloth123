@@ -1,12 +1,13 @@
 {% extends 'auth/unauthorised_base.html' %}
+{% block styles %}
+{{ super() }}
+  <link href="{{ url_for('static', filename='login.css') }}" rel="stylesheet">
+{% endblock %}
 {% block title %}playsloth - Register{% endblock %}
 {% import "bootstrap/wtf.html" as wtf%}
 {% block register_active %}active{% endblock %}
-{% block content %}
+{% block page_content %}
 <div class="container-fluid">
-
-    <div class="row">
-        <div class="col-sm-12 col-md-6">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h3>Register for an Account</h3>
@@ -20,6 +21,4 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 {% endblock %}

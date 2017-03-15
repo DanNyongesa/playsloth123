@@ -42,11 +42,13 @@ playsloth - All Songs
                                     <td>{{ song.song_title }}</td>
                                     <td>{{ song.album.artist }}</td>
                                     <td>
-                                        <a target="_blank" href="{{ song.audio_url }}">
-                                            <button type="button" class="btn btn-success btn-xs">
-                                                <span class="glyphicon glyphicon-play"></span>&nbsp; Play
-                                            </button>
-                                        </a>
+                                        <audio controls autoplay>
+                                            <source src="{{ song.audio_url }}" type="audio/ogg">
+                                            <source src="{{ song.audio_url }}" type="audio/wav">
+                                            <source src="{{ song.audio_url }}" type="audio/mp3">
+                                            <source src="{{ song.audio_url }}" type="audio/mp4">
+                                            Your browser does not support audion in this format
+                                        </audio>
                                     </td>
                                     <td>
                                         <a href="{{ url_for('main.detail', album_id=song.album.id) }}">
@@ -55,7 +57,7 @@ playsloth - All Songs
                                         <a href="{{ url_for('main.detail', album_id=song.album.id) }}">{{ song.album.album_title }}</a>
                                     </td>
                                     <td>
-                                        <a href="" onclick="favorite('{{ song.id }}', '#favid')" class="btn-favorite"><span id="favid" class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                        <a href="{{ url_for('main.favorite_song', song_id=song.id) }}" class="btn-favorite"><span id="favid" class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
                                     </td>
                                 </tr>
                             {% endfor %}

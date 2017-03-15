@@ -7,7 +7,7 @@
     <!-- Albums -->
     <div class="row">
         <div class="col-sm-12">
-        {% if albums %}
+        {% if albums.items %}
             {% for album in albums.items %}
                 {% include 'main/albums.html' %}
                 <div class="{{ loop.cycle('', '', '', '', '', 'clearfix visible-lg') }}"></div>
@@ -27,6 +27,10 @@
         {% endif %}
     </div>
 </div>
+    {% if albums.items %}
+        {% import 'main/_helpers.html' as helpers %}
+        {{ helpers.paginate(albums, 'main.index') }}
+    {% endif %}
     <!-- If user searches and there are songs -->
     {% if songs %}
         <div class="row">
@@ -52,11 +56,13 @@
                                         <td>{{ song.song_title }}</td>
                                         <td>{{ song.album.artist }}</td>
                                         <td>
-                                            <a target="_blank" href="{{ song.audio_file.url }}">
-                                                <button type="button" class="btn btn-success btn-xs">
-                                                    <span class="glyphicon glyphicon-play"></span>&nbsp; Play
-                                                </button>
-                                            </a>
+                                             <audio controls autoplay>
+                                            <source src="{{ song.audio_url }}" type="audio/ogg">
+                                            <source src="{{ song.audio_url }}" type="audio/wav">
+                                            <source src="{{ song.audio_url }}" type="audio/mp3">
+                                            <source src="{{ song.audio_url }}" type="audio/mp4">
+                                            Your browser does not support audion in this format
+                                        </audio>
                                         </td>
                                         <td>
                                             <a href="{{ url_for('main.detail', album_id=song.album.id) }}">
@@ -65,7 +71,6 @@
                                             <a href="{{ url_for('main.detail', album_id=song.album.id) }}">{{ song.album.album_title }}</a>
                                         </td>
                                         <td>
-                                            <!--#TODO look up at this functionality-->
                                             <a href="{{ url_for('main.favorite_song', song_id=song.album.id) }}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
                                         </td>
                                     </tr>
@@ -77,7 +82,5 @@
             </div>
         </div>
     {% endif %}
-    {% import 'main/_helpers.html' as helpers %}
-    {{ helpers.paginate(albums, 'main.index') }}
 </div>
 {% endblock %}

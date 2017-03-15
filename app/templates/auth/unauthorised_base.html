@@ -1,42 +1,83 @@
 {% extends "bootstrap/base.html" %}
+
 {% block head %}
+  {{ super() }}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="playsloth landing page">
+    <meta name="author" content="">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+{% endblock %}
+
+{% block title %}playsloth, inc{% endblock %}
+
+{% block scripts %}
 {{ super() }}
-    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.ico') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 {% endblock %}
-{% block title %}playsloth - Visitor{% endblock %}
-{% block navbar %}
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
 
-        <!-- Header -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">playsloth</a>
-        </div>
-
-        <!-- Items -->
-        <div class="collapse navbar-collapse" id="topNavBar">
-            <ul class="nav navbar-nav">
-                <li class="{% block register_active %}{% endblock %}"><a href="{{ url_for('auth.register') }}">Register</a></li>
-                <li class="{% block login_active %}{% endblock %}"><a href="{{ url_for('auth.login') }}">Log In</a></li>
-            </ul>
-        </div>
-
-    </div>
-</nav>
-<div class="container">
-    {% for messages in get_flashed_messages() %}
-    <div class="alert alert-warning alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        {{ messages }}
-    </div>
-    {% endfor %}
-</div>
-{% endblock %}
 {% block content %}
+
+    <div class="site-wrapper">
+        <div class="site-wrapper-inner">
+            <div class="cover-container">
+                <div class="masthead clearfix">
+                    <div class="inner">
+                        <h3 class="masthead-brand {% block home_active %}{% endblock %}"><a class="navbar-brand anav" href="{{ url_for('main.index') }}">playsloth</a></h3>
+                        <nav>
+                            <ul class="nav masthead-nav">
+                                <li class="{% block login_active %}{% endblock %}"><a class="anav" href="{{ url_for('auth.login') }}">login</a></li>
+                                <!--<li class="{% block register_active %}{% endblock %}"><a href="{{ url_for('auth.register') }}">Sign up</a></li>-->
+                                <!--<li><a href="#">Contact</a></li>-->
+                            </ul>
+                        </nav>
+                    </div>
+                    <br><br>
+                    {% for messages in get_flashed_messages() %}
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ messages }}
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="inner cover">
+                    {% block inner_cover %}
+                    {% block page_content %}
+                    <!--page content goes here -->
+                    {% endblock %}
+                    {% endblock %}
+                </div>
+
+                <div class="mastfoot">
+                    {% block footer %}
+                    <div class="inner">
+                        <p class="text-muted">&copy; 2017 playsloth, inc. All rights reserved </p>
+                    </div>
+
+                    {% endblock %}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
 {% endblock %}
