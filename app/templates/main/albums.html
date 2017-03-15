@@ -21,7 +21,7 @@
              </form>
 
              <!-- Favorite Album -->
-             <button class="btn btn-default btn-sm btn-favorite" role="button" href="url_for('favorite_album')">
+             <button class="btn btn-default btn-sm btn-favorite" role="button" href="{{ url_for('main.favorite_album', album_id=album.id) }}">
                  <span class="glyphicon glyphicon-star {% if album.is_favorite %}active{% endif %}"></span>
              </button>
          </div>

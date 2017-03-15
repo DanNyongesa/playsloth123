@@ -1,5 +1,7 @@
 body {
-    background: url("images/background.png");
+    background: url("images/equalizer.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 ul.errorlist {

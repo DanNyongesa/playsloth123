@@ -55,17 +55,15 @@
                             <tr>
                                 <td>{{ song.song_title }}</td>
                                 <td>
-                                    <a target="_blank" href="{{ song.audio_url }}">
-                                        <button type="button" class="btn btn-success btn-xs">
-                                            <span class="glyphicon glyphicon-play"></span>&nbsp; Play
-                                        </button>
-                                    </a>
+                                    <audio controls preload="auto" autoplay="false">
+                                            <source src="{{ song.audio_url }}" type="audio/mpeg">
+                                            Your browser does not support audion in this format
+                                        </audio>
                                 </td>
                                 <td>
-                                    <a class="btn-favorite"><spanclass="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                    <a class="btn-favorite" href="{{ url_for('main.favorite_song', song_id=song.id) }}"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
                                 </td>
                                 <td>
-                                    <!--#TODO change this form-->
                                     <form action="{{url_for('main.delete_song',album_id=album.id, song_id=song.id)}}" method="post" style="display: inline;">
                                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                         <input type="hidden" name="song_id" value="{{ song.id }}" />

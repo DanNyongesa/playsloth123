@@ -1,27 +1,31 @@
-body {
-    background: url("images/music3.jpg");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-}
+
 /*
  * Globals
  */
 
 /* Links */
-a,
-a:focus,
-a:hover {
+a.anav,
+a.anav:focus,
+a.anav a:hover {
   color: #fff;
 }
 
 /* Custom default button */
-.btn-default,
-.btn-default:hover,
-.btn-default:focus {
-  color: #333;
-  text-shadow: none; /* Prevent inheritance from `body` */
-  background-color: #fff;
-  border: 1px solid #fff;
+.btn-default{
+color: #ffffff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	background-color: #006dcc;
+	*background-color: #0044cc;
+	background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+	background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+	background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+	background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+	background-repeat: repeat-x;
+	border-color: #0044cc #0044cc #002a80;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 
 
@@ -31,14 +35,16 @@ a:hover {
 
 html,
 body {
-  font-family: 'Satisfy', cursive;
   height: 100%;
   background-color: #333;
 }
 body {
-  color: #fff;
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+  font-family: 'Satisfy', cursive;
+  text-align: left;
+  text-shadow: none;
+  background: url("images/musician.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -75,7 +81,6 @@ body {
 .masthead-brand {
   margin-top: 10px;
   margin-bottom: 10px;
-
 }
 
 .masthead-nav > li {
@@ -88,6 +93,7 @@ body {
   padding-right: 0;
   padding-left: 0;
   font-size: 25px;
+  font-size: 16px;
   font-weight: bold;
   color: #fff; /* IE8 proofing */
   color: rgba(255,255,255,.75);

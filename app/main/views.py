@@ -11,10 +11,12 @@ import os
 @main.route("/", methods=['GET', 'POST'])
 @main.route("/home",methods=['GET', 'POST'])
 @main.route("/index/<int:page>", methods=['GET', 'POST'])
-@login_required
 def index(page=1):
+    if not current_user.is_authenticated:
+        return render_template("auth/index.html")
     albums = Album.query.filter_by(user=current_user).paginate(page, current_app.config['ALBUMS_PER_PAGE'], False)
     return render_template("main/index.html", albums=albums)
+
 
 @main.route('/search', methods=['GET', 'POST'])
 @login_required
@@ -102,10 +104,9 @@ def detail(album_id):
     return render_template('main/details.html', album=album, songs=songs)
 
 
-@main.route("/albums/favorite", methods=['POST', 'GET'])
+@main.route("/albums/favorite/<int:album_id>", methods=['POST', 'GET'])
 @login_required
-def favorite_album():
-    album_id = request.json.get('id')
+def favorite_album(album_id):
     album = Album.query.filter_by(id=album_id).first()
     if album.is_favorite:
         album.is_favorite = False
@@ -113,7 +114,7 @@ def favorite_album():
         album.is_favorite = True
     db.session.add(album)
     db.session.commit()
-    resp = jsonify({'message': "Success", "value": album.is_favorite})
+    resp = jsonify({'success': True})
     resp.status_code = 200
     return resp
 
@@ -155,7 +156,7 @@ def favorite_song(song_id):
         song.is_favorite = True
     db.session.add(song)
     db.session.commit()
-    resp = jsonify({'message': "Success", "value": song.is_favorite})
+    resp = jsonify({'success': True})
     resp.status_code = 200
     return resp
 
